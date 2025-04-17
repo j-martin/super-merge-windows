@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Super Merge Windows",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Remove duplicates, sort and merge all tabs into the active window",
   "homepage_url": "https://github.com/j-martin/merge-windows",
   "minimum_chrome_version": "125",
@@ -16,5 +16,7 @@
     "default_title": "Merge Windows",
     "default_icon": "icon.png"
   },
-  "permissions": ["tabs"]
+  "permissions": [
+    "tabs"
+  ]
 }

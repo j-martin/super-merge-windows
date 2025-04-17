@@ -1,8 +1,14 @@
 const browser = globalThis.browser ?? globalThis.chrome;
 
+const closePatterns = [
+  "chrome://newtab/",
+  /https:\/\/.*.slack.com\/archives\/.*/,
+]
+
 browser.action.onClicked.addListener(async () => {
   let [currentWindow, ...tabs] = await Promise.all([
     browser.windows.getCurrent(),
+
     ...[true, false].flatMap((currentWindow) =>
       ["normal", "popup"].map((windowType) =>
         browser.tabs.query({
@@ -39,10 +45,13 @@ browser.action.onClicked.addListener(async () => {
 
   for (const tab of uniqueTabs) {
     if (tab.pinned) {
-      await browser.tabs.update(tab.id, { pinned: true });
+      await browser.tabs.update(tab.id, {pinned: true});
     }
-    if (tab.url.endsWith("chrome://newtab/")) {
-      await browser.tabs.remove(tab.id);
+    for (const pattern of closePatterns) {
+      if (tab.url.match(pattern)) {
+        await browser.tabs.remove(tab.id);
+        break
+      }
     }
   }
 });
