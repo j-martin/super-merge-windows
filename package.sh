@@ -14,9 +14,17 @@ _info() {
 
 _main() {
   cd "${BINPATH}"
-  local archive="../super-merge-windows.zip"
+  local archive="out/super-merge-windows.zip"
+  mkdir -p "$(dirname "${archive}")"
   rm -f "${archive}"
-  zip -r "${archive}" . -x '*.git/*' -x '.idea/*'
+
+  zip -r "${archive}" . \
+    -x '*.git/*' \
+    -x '.idea/*' \
+    -x "${archive}" \
+    -x '*.DS_Store' \
+    -x '*.zip'
+
   _info "Created archive: ${archive}"
 }
 
